@@ -1,0 +1,26 @@
+# Install:
+#    sudo ln -s `pwd`/assistant_w_button.service /lib/systemd/system
+#    sudo systemctl daemon-reload
+#
+# Start on each boot:
+#    sudo systemctl enable assistant_w_button.service
+#
+# Start right now:
+#    sudo systemctl start assistant_w_button.service
+
+[Unit]
+Description=Assistant with Button
+Wants=network-online.target
+After=network-online.target
+Wants=systemd-timesyncd.service
+After=systemd-timesyncd.service
+
+[Service]
+Environment=DISPLAY=:0
+Type=simple
+Restart=always
+User=pi
+ExecStart=/usr/bin/python3 -u /home/pi/PiZero-Google-Voice-Kit/scripts/assistant_w_button.py --language es-MX
+
+[Install]
+WantedBy=multi-user.target
